@@ -1,49 +1,48 @@
-# 🤖 agen-AI — MiMo-AutoAgent
+# 🤖 agen-AI — MiMo-AutoAgent v3.1
 
-> Agen AI otonom: ketekunan & kreativitas agen riset + otak Xiaomi MiMo-V2.5-Pro + guardrail permanen yang tidak bisa dimatikan.
+> Agen AI otonom: ketekunan agen riset + otak model terbuka (Xiaomi MiMo / Qwen lokal) + guardrail permanen yang tidak bisa dimatikan.
 
 ![Python](https://img.shields.io/badge/Python-3.10%2B-blue)
-![Brain](https://img.shields.io/badge/Brain-MiMo--V2.5--Pro-orange)
+![Cost](https://img.shields.io/badge/Biaya-%240-green)
 ![License](https://img.shields.io/badge/License-MIT-yellow)
 
 ## ✨ Apa ini?
-MiMo-AutoAgent bekerja dengan loop **amati → pikir → aksi → belajar → ulangi**.
-Beri satu tujuan, dan ia akan: bernalar sendiri, menulis skrip Python sendiri,
-menyimpan temuan ke memori jangka panjang, dan mencoba terus sampai tugas selesai —
-semua di bawah pagar keamanan yang tercatat di audit log.
+Beri satu tujuan, dan agen akan: bernalar sendiri, menulis skrip Python sendiri,
+membaca file proyek, menyimpan temuan ke memori jangka panjang, dan mencoba terus
+sampai tugas selesai — semua di bawah pagar keamanan yang tercatat di audit log.
 
-## 🧬 DNA proyek ini
-| Sumber | Yang diadopsi |
+## 🧰 Perkakas agen (terinspirasi Codex)
+| Tool | Fungsi |
 |---|---|
-| Studi agen otonom (insiden HF 2026) | Ketekunan tanpa bosan, kreativitas membuat tool sendiri, memori lintas-aksi |
-| Xiaomi MiMo-V2.5-Pro (open source) | Otak reasoning & coding tingkat flagship |
-| Pelajaran AI safety | Guardrail permanen, audit log transparan, allowlist target |
-
-## 🏗️ Arsitektur
-```
-tujuan → [Otak MiMo] → pilih tool → [GUARDRAIL] → eksekusi → observasi → memori → ulangi
-```
+| think / remember / recall | penalaran + memori persisten (SQLite) |
+| python / shell | eksekusi terkunci `lab_mode.txt` |
+| read_file | baca file **hanya di dalam workspace** (sandbox ala workspace-write) |
+| web_read | baca web dari allowlist host |
+| finish | akhiri tugas + cetak statistik sesi |
 
 ## 🚀 Instalasi
 ```bash
 git clone https://github.com/bruhsmith930-eng/agen-AI.git
 cd agen-AI
 pip install -r requirements.txt
-cp .env.example .env      # lalu isi API key-mu di .env (JANGAN di-commit!)
+cp .env.example .env      # isi key gratis / mode Ollama lokal
 python agent.py
 ```
 
+## 🆓 Mode gratis
+- **OpenRouter `:free`** — biaya $0, otomatis pindah model bila satu gagal
+- **Ollama lokal** — offline total, tanpa key, tanpa kuota
+
 ## 🛡️ Model keamanan
-- Pola perintah berbahaya diblokir regex guardrail
-- Eksekusi shell/python terkunci sampai user membuat `lab_mode.txt` (izin eksplisit)
-- Akses web dibatasi `ALLOWED_HOSTS`
-- Semua aksi tercatat di `agent_memory.db` (tabel audit)
+- Regex guardrail blokir perintah berbahaya & kebocoran kredensial
+- Sandbox workspace untuk baca file
+- Eksekusi shell/python butuh izin eksplisit `lab_mode.txt`
+- Semua aksi tercatat di `agent_memory.db` (tabel audit) + statistik sesi
 
 ## 🗺️ Roadmap
-- [ ] Tool tambahan: rangkum dokumen, kirim email
 - [ ] Mode multi-agen (planner + executor)
-- [ ] Integrasi Galaxy AI / Chatbox mobile
 - [ ] UI web sederhana
+- [ ] Integrasi PocketPal (offline di Android)
 
 ## 📜 Lisensi
-MIT — bebas dipakai untuk belajar.
+MIT
